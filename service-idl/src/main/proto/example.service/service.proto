@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package example.service;
+
+option java_package = "example.service.protobuf";
+option java_outer_classname = "ExampleServiceProto";
+option java_multiple_files = true;
+
+service ExampleService {
+
+    // Prints the received message to the console
+    rpc PrintMessage (MessageRequest) returns (google.protobuf.Empty) {}
+}
+
+message MessageRequest {
+    string message = 1;
+}
