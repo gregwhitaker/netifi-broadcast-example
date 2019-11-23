@@ -1,0 +1,5 @@
+rootProject.name = 'netifi-broadcast-example'
+include 'client'
+include 'service'
+include 'service-idl'
+
