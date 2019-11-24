@@ -24,7 +24,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+import reactor.core.publisher.Flux;
+
+import java.time.Duration;
+import java.util.concurrent.CountDownLatch;
 
 @SpringBootApplication
 public class ClientApplication {
@@ -42,32 +45,24 @@ public class ClientApplication {
 
         @Override
         public void run(String... args) throws Exception {
-            MessageRequest request = MessageRequest.newBuilder()
-                    .setMessage(getMessageFromArgs(args))
-                    .build();
+            CountDownLatch latch = new CountDownLatch(30);
 
-            LOG.info("Broadcasting: {}", request.getMessage());
+            // Send 30 broadcast messages with a one second interval
+            Flux.range(1, 30)
+                    .map(cnt -> MessageRequest.newBuilder()
+                            .setMessage("This is broadcast test message " + cnt)
+                            .build())
+                    .delayElements(Duration.ofSeconds(1))
+                    .doOnEach(messageRequestSignal -> {
+                        LOG.info("Sending: " + messageRequestSignal.get().getMessage());
+                        latch.countDown();
+                    })
+                    .flatMap(messageRequest -> exampleServiceClient.printMessage(messageRequest))
+                    .subscribe();
 
-            // Broadcasting the message to the group
-            exampleServiceClient.printMessage(request).block();
-        }
+            latch.await();
 
-        /**
-         * Gets the message to broadcast from the command line arguments.
-         *
-         * @param args command line arguments
-         * @return message to broadcast
-         */
-        public String getMessageFromArgs(String... args) {
-            if (args.length != 1) {
-                throw new IllegalArgumentException("Invalid number of arguments");
-            }
-
-            if (StringUtils.isEmpty(args[0])) {
-                throw new IllegalArgumentException("Message argument cannot be null or empty string");
-            }
-
-            return args[0];
+            System.exit(1);
         }
     }
 }
