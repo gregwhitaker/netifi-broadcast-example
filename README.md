@@ -1,8 +1,13 @@
 # netifi-broadcast-example
+An example showing how to broadcast a message to multiple services using [Netifi](https://www.netifi.io) and [RSocket](http://rsocket.io).
 
 ## Building the Example
+Run the following command to build the example:
+
+    ./gradlew clean buildImage
 
 ## Running the Example
+Follow the steps below to run the example:
 
 ## Bugs and Feedback
 For bugs, questions, and discussions please use the [Github Issues](https://github.com/gregwhitaker/netifi-broadcast-example/issues).
