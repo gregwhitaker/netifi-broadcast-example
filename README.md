@@ -1,6 +1,13 @@
 # netifi-broadcast-example
 An example showing how to broadcast a message to multiple services using [Netifi](https://www.netifi.io) and [RSocket](http://rsocket.io).
 
+## Project Structure
+This example contains the following projects / directories:
+
+- [client](client) - Client that sends broadcast messages to a group.
+- [service](service) - Service that is listening for messages.
+- [service-idl](service-idl) - Defines the API contract for the example `service`.
+
 ## Building the Example
 Run the following command to build the example:
 
