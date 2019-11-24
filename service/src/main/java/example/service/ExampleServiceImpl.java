@@ -24,6 +24,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import reactor.core.publisher.Mono;
 
+/**
+ * Service that receives messages and prints them to the console.
+ */
 @SpringBootApplication
 public class ExampleServiceImpl implements ExampleService {
     private static final Logger LOG = LoggerFactory.getLogger(ExampleServiceImpl.class);

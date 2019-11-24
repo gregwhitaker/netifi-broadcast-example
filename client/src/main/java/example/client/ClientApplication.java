@@ -29,6 +29,9 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * Client that sends broadcast messages to a group.
+ */
 @SpringBootApplication
 public class ClientApplication {
     private static final Logger LOG = LoggerFactory.getLogger(ClientApplication.class);
